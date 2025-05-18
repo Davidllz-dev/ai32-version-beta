@@ -1,0 +1,151 @@
+Très bonne question ! Pour intégrer vos fichiers existants (CSS, JS, PHP, etc.) dans un **plugin WordPress structuré**, voici **un guide étape par étape** pour les organiser, les charger, et faire fonctionner le tout proprement **comme un vrai plugin WordPress**.
+
+---
+
+## ✅ Étapes pour transformer vos fichiers en plugin WordPress
+
+### 📁 1. **Structure du plugin**
+
+Organisez vos fichiers dans un dossier `/ai32-annuaire` comme suit :
+
+```
+wp-content/
+└── plugins/
+    └── ai32-annuaire/
+        ├── ai32.php               ← Point d’entrée du plugin
+        ├── class/
+        │   ├── class-ai32.php     ← Votre fichier principal avec la classe `AI32`
+        │   ├── class-ldap.php     ← Classe `AI32_LDAP` (si vous l’avez)
+        │   └── class-view.php     ← Classe `AI32_VIEW` pour l’affichage
+        ├── public/
+        │   ├── css/
+        │   │   └── ai32.css       ← Vos styles CSS
+        │   ├── js/
+        │   │   └── ai32.js        ← Votre JavaScript
+        │   └── lib/               ← Librairies comme DataTables, jQuery
+        ├── templates/
+        │   ├── ai32.php           ← Vue pour afficher les résultats
+        │   └── ai32-link.php      ← Vue pour le lien vers RH
+        └── README.md              ← Documentation
+```
+
+---
+
+### 🧠 2. **Fichier principal du plugin : `ai32.php`**
+
+C’est ce fichier qui sera lu par WordPress à l’activation du plugin :
+
+```php
+<?php
+/**
+ * Plugin Name: AI32 Annuaire Intranet
+ * Description: Plugin WordPress pour afficher un annuaire LDAP dans l'intranet.
+ * Version: 1.0.0
+ * Author: Christian Shungu
+ * License: GPLv2 or later
+ */
+
+defined('ABSPATH') || exit;
+
+// Constantes
+define('AI32_PATH', plugin_dir_path(__FILE__));
+define('AI32_URL', plugin_dir_url(__FILE__));
+
+// Inclusions
+require_once AI32_PATH . 'class/class-ai32.php';
+require_once AI32_PATH . 'class/class-ldap.php';
+require_once AI32_PATH . 'class/class-view.php';
+
+// Hook WordPress
+add_action('init', ['AI32\AI32', 'supprots']);
+```
+
+---
+
+### 📌 3. **Fichier de votre classe `class-ai32.php`**
+
+Ce fichier, c’est celui que vous avez déjà. Veillez juste à l’adapter pour :
+
+* Utiliser les chemins corrects (vers `templates/` au lieu de `public/`)
+* Supprimer les fautes : `shortecode` → `shortcode`
+
+Adaptez :
+
+```php
+AI32_VIEW::render("templates/ai32.php", $attributes);
+```
+
+---
+
+### 🎨 4. **Assets CSS et JS**
+
+Dans `register_assets()`, vous avez déjà tout ce qu’il faut. Assurez-vous que les chemins soient corrects :
+
+```php
+wp_register_style('ai32', AI32_URL . 'public/css/ai32.css');
+wp_register_script('ai32', AI32_URL . 'public/js/ai32.js', ['jquery'], '1.0', true);
+```
+
+> ✅ Conseil : Chargez les fichiers **uniquement sur les pages utiles** avec `is_page()`.
+
+---
+
+### 📄 5. **Vues HTML (dans `templates/`)**
+
+Déplacez vos anciens fichiers HTML ou PHP partiels ici. Exemple :
+
+#### `templates/ai32.php`
+
+```php
+<div class="ai32-search-bar-container">
+    <input type="text" class="ai32-search-bar" id="search-bar" placeholder="Recherche...">
+</div>
+
+<div class="ai32-filtres">
+    <form id="filters-form">
+        <input type="text" placeholder="Nom">
+        <input type="text" placeholder="Service">
+        <button type="submit">Filtrer</button>
+        <button type="reset" id="reset-filters">Réinitialiser</button>
+    </form>
+</div>
+
+<div class="resultats-container">
+    <?php foreach ($resultats as $item): ?>
+        <div class="carte-resultat">
+            <p><strong>Nom :</strong> <?= esc_html($item['name']) ?></p>
+            <p><strong>Email :</strong> <a href="mailto:<?= esc_attr($item['email']) ?>"><?= esc_html($item['email']) ?></a></p>
+        </div>
+    <?php endforeach; ?>
+</div>
+```
+
+---
+
+### 🧩 6. **Ajout du shortcode dans une page WordPress**
+
+Dans une page WordPress, collez simplement :
+
+```
+[ai32_shortcode_content]
+```
+
+> 💡 Assurez-vous que la méthode `AI32::pageContent()` retourne bien le HTML (ou le `include` dans la vue).
+
+---
+
+## 🎁 Résumé : Check-list finale
+
+| ✅ À faire                          | 📂 Emplacement        |
+| ---------------------------------- | --------------------- |
+| Créer `ai32.php`                   | racine plugin         |
+| Ajouter `class-ai32.php`           | `/class/`             |
+| Déplacer vues HTML                 | `/templates/`         |
+| Placer CSS/JS                      | `/public/`            |
+| Corriger les noms de shortcodes    | Dans votre classe     |
+| Utiliser `add_action('init', ...)` | Dans `ai32.php`       |
+| Ajouter le shortcode dans une page | WordPress Page Editor |
+
+---
+
+Souhaitez-vous que je vous génère un exemple ZIP prêt à l'emploi avec cette structure ?
