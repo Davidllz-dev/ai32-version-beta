@@ -1,0 +1,147 @@
+Parfait ! Voici une **présentation complète en trois formats** que tu pourras utiliser selon tes besoins :
+
+---
+
+## 🖼️ 1. Diaporama (format pour PowerPoint / Google Slides)
+
+### **Slide 1 – Titre**
+
+**Filtrage dynamique de fiches (JS)**
+🔍 **Recherche – Filtres – Pagination**
+
+---
+
+### **Slide 2 – Objectif du script**
+
+* Permettre aux utilisateurs de **filtrer, rechercher et trier** une liste de fiches (ou cartes) dynamiquement.
+* Offrir une **expérience fluide** sans rechargement de page.
+* Fonctionne avec **HTML + JavaScript** pur.
+
+---
+
+### **Slide 3 – main.js**
+
+* Fichier principal exécuté au chargement.
+* Récupère tous les éléments HTML nécessaires.
+* Appelle la fonction `initFiltres()` depuis `filtres.js`.
+
+✅ Sépare bien **logique** et **initialisation**.
+
+---
+
+### **Slide 4 – filtres.js : initialisation**
+
+* Fonction `initFiltres({...})` reçoit tous les éléments HTML.
+* Récupère les **préférences utilisateur** (nombre de cartes par page).
+* Cache les résultats au départ.
+
+---
+
+### **Slide 5 – Recherche et Filtres**
+
+* `applyFiltres()` : filtre via les champs du formulaire.
+* `applyGlobalSearch()` : recherche **globale** dans tous les champs `data-*`.
+* Résultats filtrés stockés dans `filteredCards`.
+
+---
+
+### **Slide 6 – Pagination**
+
+* `afficherCartes()` : n’affiche que les cartes d’une page.
+* `afficherPagination()` : ajoute boutons "Précédent" / "Suivant".
+* La pagination est recalculée à chaque action.
+
+---
+
+### **Slide 7 – Tri alphabétique**
+
+* `sortCards()` : trie les cartes par nom (champ `data-nom`).
+* Utilise `localeCompare()` pour un tri **alphabétique universel**.
+
+---
+
+### **Slide 8 – Réinitialisation**
+
+* Bouton "Réinitialiser les filtres" :
+
+  * Vide les champs,
+  * Réinitialise la pagination,
+  * Cache les résultats.
+* Le bouton "X" efface la recherche globale.
+
+---
+
+### **Slide 9 – Autres fonctionnalités**
+
+* Liens cliquables `.filter-click` pour appliquer un filtre rapide (ex : clic sur "DGA").
+* Sélecteur du nombre de cartes par page, avec mémoire (`localStorage`).
+
+---
+
+### **Slide 10 – Conclusion**
+
+🧠 Code modulaire, simple à maintenir.
+⚙️ 100% dynamique, sans rechargement.
+✅ Compatible avec des centaines de fiches.
+📦 Réutilisable pour tout type de fiche : agents, produits, services, etc.
+
+---
+
+## 📝 2. Document à imprimer (résumé pour validation)
+
+---
+
+### 📄 Titre : Fonctionnement des fichiers `main.js` et `filtres.js`
+
+#### 🔹 `main.js`
+
+* S’occupe d’attendre que la page soit chargée.
+* Récupère les éléments HTML nécessaires (formulaire, cartes, pagination…).
+* Appelle la fonction `initFiltres()` du fichier `filtres.js`.
+
+#### 🔹 `filtres.js`
+
+* **Initialise les filtres** à partir des éléments reçus.
+* Utilise un tableau temporaire `filteredCards` pour stocker les résultats.
+* Prend en compte :
+
+  * Les **champs de formulaire** (par filtre),
+  * La **recherche globale** (barre de recherche),
+  * Le **tri alphabétique** (automatique),
+  * La **pagination** (selon choix utilisateur).
+
+#### 🔹 Points forts
+
+* Aucune requête serveur : tout se passe en **JavaScript côté client**.
+* Très réactif même avec de nombreuses cartes.
+* Utilise `data-*` pour rendre le code HTML plus flexible.
+
+#### 🔹 Interaction utilisateur
+
+* Mise à jour automatique des résultats dès qu’un filtre est changé.
+* Affichage intelligent des boutons "Précédent" / "Suivant".
+* Recherche rapide dans **tous les champs** d’une carte.
+* Mémoire utilisateur grâce au `localStorage`.
+
+---
+
+## 🎙️ 3. Script de présentation orale (2-3 minutes)
+
+> Bonjour, je vous présente ici le fonctionnement des scripts `main.js` et `filtres.js` qui permettent de filtrer dynamiquement une liste de fiches.
+>
+> `main.js` est très simple : il attend que la page HTML soit prête, puis initialise la logique des filtres en appelant la fonction `initFiltres()`.
+> Tous les éléments HTML importants (formulaire, cartes, champ de recherche, pagination…) sont récupérés et transmis à cette fonction.
+>
+> `filtres.js` contient toute la logique du filtrage :
+>
+> * Les utilisateurs peuvent filtrer via les champs du formulaire ou rechercher dans tous les champs en une seule fois.
+> * Les résultats sont triés par ordre alphabétique, affichés par page, et la pagination est générée dynamiquement.
+> * Il y a aussi des filtres rapides (liens dans les cartes) qui permettent d'appliquer un filtre en un clic.
+>
+> Tout est instantané, sans rechargement de page, et le nombre de résultats par page est mémorisé entre les sessions.
+>
+> C’est un système robuste, évolutif, et facilement réutilisable dans d’autres contextes comme un annuaire, un catalogue de produits, ou une bibliothèque.
+
+---
+
+Souhaites-tu que je génère un **fichier PowerPoint ou PDF prêt à l'emploi** ? Si oui, indique ton **préférence de format** (PowerPoint `.pptx`, PDF, Google Slides, etc.) et je le prépare pour toi.
