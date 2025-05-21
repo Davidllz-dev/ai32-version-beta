@@ -19,6 +19,10 @@
                     placeholder="Recherche par nom, direction, service, etc.">
                 <button id="clear-global-search" style="cursor:pointer;">X</button>
             </div>
+            <div class="filtres-container">
+                <button id="toggle-filtres">Afficher les filtres</button>
+            </div>
+
 
             <div class="ai32-filtres">
                 <aside>
@@ -66,11 +70,11 @@
                         $division   = htmlspecialchars($res['division'] ?? '');
                         $description = htmlspecialchars($res['description'] ?? '');
 
-                        
+
                         $descriptionParts = explode('/', $description);
                         $descriptionKey = strtoupper(trim($descriptionParts[0] ?? ''));
 
-                        
+
                         $couleurs = [
                             'CAB' => ' #ad2418',
                             'C' => ' #ad2418',
@@ -80,7 +84,7 @@
                             'DGAS' => ' #00a1b7',
                         ];
 
-                        $couleurCarte = $couleurs[$descriptionKey] ?? '#cccccc'; 
+                        $couleurCarte = $couleurs[$descriptionKey] ?? ' #cccccc';
 
                         ?>
 
@@ -100,25 +104,28 @@
                             style="border-left: 8px solid <?= $couleurCarte ?>;">
 
 
-
-
                             <p><?= $sn ?> <?= $prenom ?></p>
-                            
-                            <p><a href="mailto:<?= $mail ?>"><?= $mail ?></a></p>                            
+
+                            <p><a href="mailto:<?= $mail ?>">
+                            <?= $mail ?></a></p>
                             <p>
+
                                 <?php if ($mobile): ?>
                                     <a href="tel:<?= $mobile ?>"><?= chunk_split($mobile, 2, ' ') ?> /</a>
-                                <?php endif; ?> 
+                                <?php endif; ?>
+
                                 <?php if ($fixe): ?>
                                     <a href="tel:<?= $fixe ?>"><?= chunk_split($fixe, 2, ' ') ?></a>
                                 <?php endif; ?>
+
                             </p>
 
-                            <p><?= $dga ?> / <?= $division ?><p>
 
-                                <a href="#" class="filter-click" data-type="direction" data-value="<?= strtolower($direction) ?>">
+                            <p><?= $dga ?><p>
+
+                                <a href="#" class="filter-click" data-type="direction" data-value="<?= strtolower($direction) ?>"> 
                                     <?= $direction ?>
-                                </a>
+                                </a>/ <?= $division ?>
                             </p>
 
                             <p>
@@ -135,6 +142,25 @@
 
                             <p><?= $fonction ?></p>
                             <!-- <p><strong>Division :</strong> <?= $division ?></p> -->
+
+                            <div class="contact-icons" style="background-color: <?= $couleurCarte ?>;">
+                                <?php if ($mail): ?>
+                                    <a href="mailto:<?= $mail ?>" title="Envoyer un email">
+                                        <img src="<?= AI32_URL . 'public/images/mail.png' ?>" alt="Email" class="icon-email" />
+                                    </a>
+                                <?php endif; ?>
+                                <?php if ($mobile): ?>
+                                    <a href="tel:<?= $mobile ?>" title="Appeler mobile">
+                                        <img src="<?= AI32_URL . 'public/images/call.png' ?>" alt="Téléphone" class="icon-phone" />
+                                    </a>
+                                <?php elseif ($fixe): ?>
+                                    <a href="tel:<?= $fixe ?>" title="Appeler fixe">
+                                        <img src="<?= AI32_URL . 'public/images/call.png' ?>" alt="Téléphone" class="icon-phone" />
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+
+
                         </div>
                     <?php endforeach; ?>
                 </div>
